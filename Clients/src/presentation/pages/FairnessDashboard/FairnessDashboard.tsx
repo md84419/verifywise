@@ -47,7 +47,8 @@ export default function FairnessDashboard() {
     if (hash === "#biasModule") {
       return "biasModule";
     }
-    return "uploads";
+    // Default to biasModule since ML evaluator (uploads) is commented out
+    return "biasModule";
   });
   const [dialogOpen, setDialogOpen] = useState(false);
   const [modelFile, setModelFile] = useState<File | null>(null);
@@ -323,12 +324,12 @@ export default function FairnessDashboard() {
             }}
             sx={styles.tabList}
           >
-            <Tab
+            {/* <Tab
               label="ML evaluator"
               value="uploads"
               disableRipple
               sx={{ textTransform: "none !important" }}
-            />
+            /> */}
             <Tab
               label="LLM evaluator"
               value="biasModule"
@@ -338,7 +339,7 @@ export default function FairnessDashboard() {
           </TabList>
         </Box>
 
-        <TabPanel value="uploads" sx={tabPanelStyle}>
+        {/* <TabPanel value="uploads" sx={tabPanelStyle}>
           <Box display="flex" justifyContent="flex-end" mb={3}>
             <Button
               variant="contained"
@@ -560,7 +561,7 @@ export default function FairnessDashboard() {
               </Stack>
             </DialogContent>
           </Dialog>
-        </TabPanel>
+        </TabPanel> */}
 
         <TabPanel value="biasModule" sx={tabPanelStyle}>
           <BiasAndFairnessModule />
