@@ -60,6 +60,50 @@ const ProjectList = ({ projects, newProjectButton, onFilterChange }: IProjectLis
     return userId;
   };
 
+  const applyFilters = (newFilters: IProjectFilterState) => {
+    let filtered = [...projects];
+
+    // Apply each filter independently to the full projects list
+    filtered = projects.filter((project) => {
+      // Risk level filter - only apply if not "all"
+      if (newFilters.riskLevel !== "all") {
+        const riskLevel = (project.ai_risk_classification || "").toLowerCase();
+        switch (newFilters.riskLevel) {
+          case "high":
+            if (!riskLevel.includes("high")) return false;
+            break;
+          case "limited":
+            if (!riskLevel.includes("limited")) return false;
+            break;
+          case "minimal":
+            if (!riskLevel.includes("minimal")) return false;
+            break;
+        }
+      }
+      // If riskLevel is "all", this filter is ignored (passes all)
+
+      // Owner filter - only apply if not "all"
+      if (newFilters.owner !== "all") {
+        if (project.owner?.toString() !== newFilters.owner) {
+          return false;
+        }
+      }
+      // If owner is "all", this filter is ignored (passes all)
+
+      // Status filter - only apply if not "all"
+      if (newFilters.status !== "all") {
+        if (project.status?.toLowerCase() !== newFilters.status.toLowerCase()) {
+          return false;
+        }
+      }
+      // If status is "all", this filter is ignored (passes all)
+
+      return true;
+    });
+
+    return filtered;
+  };
+
   const filteredProjects = useMemo(() => {
     let result = [...projects];
 
@@ -110,13 +154,12 @@ const ProjectList = ({ projects, newProjectButton, onFilterChange }: IProjectLis
     }
   };
 
-  // Extracted render logic
   const renderProjects = () => {
     if (!projects || projects.length === 0) {
       return viewMode === "table" ? (
         <ProjectTableView projects={[]} />
       ) : (
-        <NoProject message="A use case is a real-world scenario describing how an AI system is applied within an organization. Currently you don't have any use cases in this workspace. You can either create a demo use case, or click on the 'New use case' button to start with one." />
+        <NoProject message="A use case is a real-world scenario describing how an AI system is applied within an organization. Currently you don't have any use cases in this workspace. You can either create a demo use case, or click on 'New use case' button to start with one." />
       );
     }
 
@@ -317,7 +360,6 @@ const ProjectList = ({ projects, newProjectButton, onFilterChange }: IProjectLis
         </Box>
       </Box>
 
-      {/* Projects List */}
       {renderProjects()}
     </Box>
   );

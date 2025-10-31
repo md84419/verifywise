@@ -3,3 +3,8 @@ export interface IProjectFilterState {
   owner: string;
   status: string;
 }
+
+export interface IProjectFiltersProps {
+  projects: any[];
+  onFilterChange: (filteredProjects: any[], filters: IProjectFilterState) => void;
+}
