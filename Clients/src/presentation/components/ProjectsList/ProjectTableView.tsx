@@ -29,7 +29,6 @@ const ProjectTableView: React.FC<IProjectTableViewProps> = ({ projects }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const columns = [
-    { id: "ucId", label: "UC ID", minWidth: 80 },
     { id: "title", label: "Use case title", minWidth: 200 },
     { id: "status", label: "Use Case Status", minWidth: 130 },
     { id: "risk", label: "AI Risk Level", minWidth: 130 },
@@ -227,17 +226,6 @@ const ProjectTableView: React.FC<IProjectTableViewProps> = ({ projects }) => {
                 },
               }}
             >
-              <TableCell
-                sx={{
-                  ...singleTheme.tableStyles.primary.body.cell,
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  color: "#1570EF",
-                }}
-              >
-                {project.use_case_id || "-"}
-              </TableCell>
-
               <TableCell
                 sx={{
                   ...singleTheme.tableStyles.primary.body.cell,
